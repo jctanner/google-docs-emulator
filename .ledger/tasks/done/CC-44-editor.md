@@ -46,4 +46,11 @@ No breadboard configuration changes, image release, or external deployment.
 
 Explicit saving; no realtime collaboration, autosave, tables/lists/images, title
 renaming, or full Google formatting rendering. Unexposed styles are retained where
-possible. Frontend work is committed locally; no additional push performed.
+possible. Frontend commit 3457838 pushed to origin/main at the human’s explicit request.
+
+## Handoff
+
+Human approved pushing the editor and stopping the service. Pushed 3457838 to
+origin/main. Sent SIGTERM to verified preview process 84913 and confirmed port
+33291 is no longer listening. Removed stale ignored PID file; retained SQLite
+data and logs. Preview is stopped.
