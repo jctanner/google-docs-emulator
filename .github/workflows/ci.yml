@@ -21,7 +21,13 @@ jobs:
           cache: npm
       - run: uv sync --frozen --extra dev
       - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: git diff --exit-code -- src/google_docs_emulator/static/editor.js
+      - run: npx playwright install --with-deps chromium
       - run: make lint
-      - run: make test
+      - run: |
+          export CHROMIUM_PATH="$(node -e 'process.stdout.write(require("@playwright/test").chromium.executablePath())')"
+          make test
         env:
           REQUIRE_NODE_CONTRACT: '1'
+          REQUIRE_BROWSER_TEST: '1'

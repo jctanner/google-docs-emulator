@@ -16,8 +16,8 @@ REQUIRE_NODE_CONTRACT=1 make test
 make lint
 ```
 
-The server listens at `http://127.0.0.1:8080`. `/` lists documents and
-`/ui/documents/{id}` displays escaped plain text. `/healthz` is the health probe.
+The server listens at `http://127.0.0.1:8080`. `/` lists and creates documents;
+`/ui/documents/{id}` opens the rich-text editor. `/healthz` is the health probe.
 Dependencies install into this repository, not system Python or Node.
 
 | Setting | Default | Meaning |
@@ -30,6 +30,36 @@ Run one worker per database. Mutations serialize in-process and batch validation
 happens on a copy before commit. Concurrent processes sharing a database are not
 supported. Admin/UI routes are unauthenticated local test controls; bind the
 server to loopback in development.
+
+## Browser editor
+
+The document library supports creating and finding documents. The editor offers
+paragraphs, six heading levels, bold/italic/underline/strikethrough, undo/redo,
+word count, and text/Markdown downloads of the saved document. Paste from other
+editors is reduced to the supported paragraph and inline formatting schema.
+Changes save explicitly with **Save changes** or **Ctrl/⌘ S**. Reload asks before
+discarding unsaved edits. A revision check rejects stale saves when an agent or
+another browser changes the document; your local draft stays visible for copying.
+No autosave, collaborative cursors, tables, lists, images, or title renaming yet.
+Unexposed API style metadata is retained through load/save where possible; not all
+Google formatting is displayed in the browser.
+
+The frontend uses Tiptap/ProseMirror, bundled locally. No CDN or Google calls.
+The committed bundle is included in Python wheels and container images. After
+changing `frontend/`, run `npm ci --ignore-scripts` and `make frontend`.
+CI checks that the bundle matches source and runs real Chromium browser contracts.
+For local browser tests set `CHROMIUM_PATH` to your Chromium executable and
+`REQUIRE_BROWSER_TEST=1 make test` (requires `npm ci`).
+
+For a preview on **0.0.0.0 at a random available port**, run:
+
+```sh
+make preview
+```
+
+It prints its URL and persists documents in ignored `data/preview.sqlite`.
+Stop with Ctrl-C. The browser sends an emulator-only fake token so it also works
+with `AUTH_MODE=strict`.
 
 ## Supported APIs
 

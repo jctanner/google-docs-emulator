@@ -20,3 +20,6 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 120
+
+[tool.setuptools.package-data]
+google_docs_emulator = ["static/*"]

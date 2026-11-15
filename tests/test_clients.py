@@ -109,3 +109,17 @@ def test_service_account_jwt_exchange(live_url):
     )
     assert docs.documents().create(body={"title": "Synthetic account"}).execute()["title"] == "Synthetic account"
     docs.close()
+
+
+def test_browser_editor(live_url):
+    root = Path(__file__).resolve().parents[1]
+    if not (root / "node_modules/@playwright/test").exists():
+        if os.getenv("REQUIRE_BROWSER_TEST") == "1":
+            pytest.fail("Run npm ci for browser editor tests")
+        pytest.skip("Run npm ci and install Chromium for browser editor tests")
+    if not os.getenv("CHROMIUM_PATH") and not Path("/usr/bin/chromium-browser").exists():
+        if os.getenv("REQUIRE_BROWSER_TEST") == "1":
+            pytest.fail("Set CHROMIUM_PATH to the installed Chromium executable")
+        pytest.skip("Set CHROMIUM_PATH for browser editor tests")
+    (root / "data").mkdir(exist_ok=True)
+    subprocess.run(["node", "tests/browser-editor.cjs", live_url], cwd=root, check=True, timeout=90)

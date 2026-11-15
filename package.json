@@ -1,1 +1,16 @@
-{"name":"google-docs-emulator-contracts","private":true,"scripts":{"test":"node tests/node-contract.cjs"},"devDependencies":{"googleapis":"^166.0.0"}}
+{
+  "name": "google-docs-emulator-contracts",
+  "private": true,
+  "scripts": {
+    "test": "node tests/node-contract.cjs",
+    "build": "esbuild frontend/editor.js --bundle --format=esm --minify --supported:template-literal=false --outfile=src/google_docs_emulator/static/editor.js",
+    "test:editor": "node --test tests/editor-model.test.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@tiptap/core": "^3.34.0",
+    "@tiptap/starter-kit": "^3.34.0",
+    "esbuild": "^0.28.2",
+    "googleapis": "^166.0.0"
+  }
+}

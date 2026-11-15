@@ -6,7 +6,6 @@ import re
 import sqlite3
 from copy import deepcopy
 from datetime import UTC, datetime
-from html import escape
 from io import BytesIO
 from pathlib import Path
 from threading import RLock
@@ -16,8 +15,10 @@ from zipfile import ZipFile
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 
 from .model import Invalid, batch, document, from_fixture, new_document
+from .web import page
 
 DOC_MIME = "application/vnd.google-apps.document"
 DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -415,28 +416,17 @@ def create_app(database=None, seed=None, auth_mode=None):
         with store.lock:
             return seed_items(payload)
 
+    app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
+
     @app.get("/", response_class=HTMLResponse)
     def index():
         with store.lock:
-            links = "".join(
-                f'<li><a href="/ui/documents/{escape(d["documentId"], quote=True)}">{escape(d["title"])}</a></li>'
-                for d in store.state["docs"].values()
-            )
-            return "<!doctype html><title>Google Docs emulator</title><h1>Documents</h1><ul>" + links + "</ul>"
+            return page(documents=store.state["docs"].values())
 
     @app.get("/ui/documents/{identifier}", response_class=HTMLResponse)
     def viewer(identifier: str):
         with store.lock:
-            doc = get_doc(identifier)
-            return (
-                '<!doctype html><meta charset="utf-8"><title>'
-                + escape(doc["title"])
-                + '</title><a href="/">Documents</a><h1>'
-                + escape(doc["title"])
-                + "</h1><pre>"
-                + escape(export(doc, "text/plain").decode())
-                + "</pre>"
-            )
+            return page(doc=get_doc(identifier))
 
     return app
 

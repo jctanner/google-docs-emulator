@@ -1,0 +1,21 @@
+{
+  "documents": [{
+    "documentId": "editor-welcome",
+    "title": "A place for your next idea",
+    "body": {"content": [
+      {"paragraph": {"paragraphStyle": {"namedStyleType": "HEADING_1"}, "elements": [{"textRun": {"content": "A place for your next idea\n"}}]}},
+      {"paragraph": {"elements": [
+        {"textRun": {"content": "A small, offline workspace for writing, editing, and testing agent workflows.\n"}}
+      ]}},
+      {"paragraph": {"paragraphStyle": {"namedStyleType": "HEADING_2"}, "elements": [{"textRun": {"content": "Make it your own\n"}}]}},
+      {"paragraph": {"elements": [
+        {"textRun": {"content": "Select some text", "textStyle": {"bold": true}}},
+        {"textRun": {"content": " and try the formatting toolbar. Change a paragraph into a heading, add a few thoughts, or start a new document.\n"}}
+      ]}},
+      {"paragraph": {"elements": [
+        {"textRun": {"content": "Choose Save changes", "textStyle": {"italic": true}}},
+        {"textRun": {"content": " when you’re ready. Your document stays on this machine, and agents can read or edit it through the same Docs API.\n"}}
+      ]}}
+    ]}
+  }]
+}
