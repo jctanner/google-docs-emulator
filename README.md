@@ -132,8 +132,9 @@ tests locally on pull requests. GHCR publication is manual and uses the
 `image-release` environment: configure required human reviewers before enabling
 publication. There is no automatic push/release publication.
 
-No remote repository, image release, or breadboard deployment is part of this
-local implementation. Those require explicit human approval.
+Source: https://github.com/jctanner/google-docs-emulator (published with human
+approval). Image publication and breadboard integration/deployment still require
+separate explicit human approval.
 
 ## Compatibility references
 
