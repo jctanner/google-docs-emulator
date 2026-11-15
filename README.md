@@ -157,14 +157,13 @@ docker run --rm -i --network none --entrypoint python google-docs-emulator:local
 ```
 
 The image runs as UID 10001 and stores state in `/data/google-docs.sqlite`.
-CI runs lint and both official clients. The container workflow builds and smoke
-tests locally on pull requests. GHCR publication is manual and uses the
-`image-release` environment: configure required human reviewers before enabling
-publication. There is no automatic push/release publication.
-
-Source: https://github.com/jctanner/google-docs-emulator (published with human
-approval). Image publication and breadboard integration/deployment still require
-separate explicit human approval.
+CI runs lint and both official clients. The container workflow builds and
+smoke-tests pull requests without publishing. With the repository owner's
+CC-43 approval, main builds now publish `latest` and `sha-<full commit SHA>`;
+CalVer tags publish versioned images followed by GitHub releases. The isolated
+edit and persistent-restart smoke check remains required. See
+[release conventions](docs/releases.md). Deployment and package visibility
+changes remain separate operations.
 
 ## Compatibility references
 
