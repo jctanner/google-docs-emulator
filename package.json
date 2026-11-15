@@ -1,0 +1,1 @@
+{"name":"google-docs-emulator-contracts","private":true,"scripts":{"test":"node tests/node-contract.cjs"},"devDependencies":{"googleapis":"^166.0.0"}}
